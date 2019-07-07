@@ -72,19 +72,19 @@ static NSString *const CHANNEL_NAME = @"PonnamKarthik/fluttertoast";
         }
 
         if ([gravity isEqualToString:@"top"]) {
-            [[[UIApplication sharedApplication].windows lastObject] makeToast:msg
+            [[self topWindow] makeToast:msg
                                                                                         duration:time
                                                                                         position:CSToastPositionTop
                                                                                            style:style
                                                                                            ];
         } else if ([gravity isEqualToString:@"center"]) {
-            [[[UIApplication sharedApplication].windows lastObject] makeToast:msg
+            [[self topWindow] makeToast:msg
                                                                                         duration:time
                                                                                         position:CSToastPositionCenter
                                                                                            style:style
                                                                                           ];
         } else {
-            [[[UIApplication sharedApplication].windows lastObject] makeToast:msg
+            [[self topWindow] makeToast:msg
                                                                                         duration:time
                                                                                         position:CSToastPositionBottom
                                                                                            style:style
@@ -95,6 +95,16 @@ static NSString *const CHANNEL_NAME = @"PonnamKarthik/fluttertoast";
     } else {
         result(FlutterMethodNotImplemented);
     }
+}
+
+- (UIWindow *)topWindow {
+    NSArray *windows = [UIApplication sharedApplication].windows;
+    for (UIWindow *window in windows) {
+        if(window.isKeyWindow) {
+            return window;
+        }
+    }
+    return [[UIApplication sharedApplication] keyWindow];
 }
 
 @end
